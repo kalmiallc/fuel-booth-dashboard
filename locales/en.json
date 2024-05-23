@@ -1,0 +1,13 @@
+{
+  "actions": {},
+  "misc": {},
+  "header": {},
+  "footer": {},
+  "auth": {},
+  "alerts": {},
+  "validation": {
+    "email": "Email address is not valid",
+    "emailRequired": "Typing in your email would definitely hit the spot :)",
+    "terms": "Please accept the terms"
+  }
+}

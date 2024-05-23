@@ -1,0 +1,33 @@
+@font-face {
+  font-family: Px Grotesk;
+  src: url(https://framerusercontent.com/assets/wmUMni3dqxFtCfKZAkbkvOHT4.woff2);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Px Grotesk;
+  font-weight: 'bold';
+  src: url(https://framerusercontent.com/assets/bFlYV1afaedILBWHtAhT1OGOc.woff2);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Px Grotesk;
+  font-style: 'italic';
+  src: url(https://framerusercontent.com/assets/23RnkM4adKY8QI23eBHf2fcxWTY.woff2);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Px Grotesk;
+  font-style: 'italic';
+  font-weight: 'bold';
+  src: url(https://framerusercontent.com/assets/SCYCEnPyDuM961hJCjBP3CVlqo.woff2);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Px Grotesk Mono;
+  src: url(https://framerusercontent.com/assets/3hQGCOf2JLChs4qfPdq9Umjt3U.woff2);
+  font-display: swap;
+}

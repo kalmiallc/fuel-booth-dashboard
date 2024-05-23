@@ -1,0 +1,37 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import './_typography.css';
+@import './_defaults.css';
+@import './_overwrites.css';
+@import './_transitions.css';
+
+h1,
+.text-h1 {
+  @apply font-grotesk text-[2.5rem] font-bold leading-tight text-green md:text-[3rem] lg:text-[4rem];
+}
+
+h2 {
+  @apply font-grotesk text-xl font-bold text-black;
+}
+
+button {
+  @apply font-grotesk-mono;
+}
+
+#fuel .nuxt-icon {
+  &.icon-auto svg {
+    @apply h-auto w-auto;
+  }
+  &.icon-full svg {
+    @apply h-full w-full;
+  }
+  svg {
+    margin-bottom: 0;
+  }
+}
+
+.page-container {
+  @apply mx-auto w-full max-w-[90vw] px-4 lg:max-w-[1440px];
+}
