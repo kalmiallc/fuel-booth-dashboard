@@ -1,9 +1,9 @@
 export default defineNuxtPlugin(() => {
-  const user = useUserStore();
-  if (user.jwt) {
-    $api.setToken(user.jwt);
-    user.refresh();
+  const authStore = useAuthStore();
+  if (authStore.jwt) {
+    $api.setToken(authStore.jwt);
+    authStore.refresh();
   } else {
-    user.logout();
+    authStore.logout();
   }
 });

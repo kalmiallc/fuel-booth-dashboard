@@ -2,13 +2,12 @@ import { defineStore } from 'pinia';
 import { userFriendlyMsg } from '~/lib/misc/errors';
 import { PAGINATION_LIMIT, WebStorageKeys } from '~/lib/values/general.values';
 
-let abortUser = null as AbortController | null;
-let abortUsers = null as AbortController | null;
+let abortController = null as AbortController | null;
 
-export const useUserStore = defineStore('user', {
+export const useBalanceStore = defineStore('balance', {
   state: () => ({
     items: [] as Array<UserInterface>,
-    loading: false, 
+    loading: false,
     pagination: {
       page: 1,
       pageSize: PAGINATION_LIMIT,
@@ -20,7 +19,6 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     resetData() {
-      this.active = {} as UserInterface;
       this.items = [] as UserInterface[];
       this.pagination.page = 1;
       this.pagination.itemCount = 0;
@@ -29,11 +27,12 @@ export const useUserStore = defineStore('user', {
     /**
      * API calls
      */
-    async getUsers(page?: number): Promise<UserInterface[]> {
-      if (abortUsers) {
-        abortUsers.abort();
+
+    async getBalance(page?: number): Promise<UserInterface[]> {
+      if (abortController) {
+        abortController.abort();
       }
-      abortUsers = new AbortController();
+      abortController = new AbortController();
 
       this.loading = true;
 
@@ -45,8 +44,8 @@ export const useUserStore = defineStore('user', {
           desc: 'true',
         };
 
-        const res = await $api.get<UsersResponse>('/users', params, undefined, {
-          signal: abortUsers.signal,
+        const res = await $api.get<UsersResponse>('/balance', params, undefined, {
+          signal: abortController.signal,
         });
 
         this.items = res.data.items;
@@ -68,9 +67,9 @@ export const useUserStore = defineStore('user', {
   },
 
   persist: {
-    key: WebStorageKeys.USER,
+    key: WebStorageKeys.BALANCE,
     storage: persistedState.sessionStorage,
-    paths: ['active', 'items', 'pagination'],
+    paths: ['items', 'pagination'],
     debug: true,
   },
 });

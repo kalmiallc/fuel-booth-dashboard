@@ -20,6 +20,7 @@ declare global {
   }
 
   interface UserResponse extends GeneralResponse<UserInterface> {}
+  interface UsersResponse extends GeneralItemsResponse<UserInterface> {}
 
   /**
    *  Register

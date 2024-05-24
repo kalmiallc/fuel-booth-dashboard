@@ -134,7 +134,7 @@ class Api {
       throw error;
     }
 
-    let returnedResponse = null;
+    let returnedResponse = null as any;
 
     try {
       const contentType = response.headers.get('Content-Type') || '';
@@ -151,14 +151,14 @@ class Api {
   onForbidden(_errorData: any, _requestData: Request | any) {
     const route = useRoute();
     const router = useRouter();
-    const user = useUserStore();
+    const authStore = useAuthStore();
 
     /**
      * User does not have permission to view resource.
      * Log them out and redirect to another page.
      */
-    if (user.loggedIn) {
-      user.logout(true);
+    if (authStore.loggedIn) {
+      authStore.logout(true);
     }
 
     // router.replace({

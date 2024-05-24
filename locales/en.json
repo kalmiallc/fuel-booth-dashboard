@@ -1,10 +1,7 @@
 {
-  "actions": {},
-  "misc": {},
-  "header": {},
-  "footer": {},
-  "auth": {},
-  "alerts": {},
+  "general": {
+    "total": "{total} total"
+  },
   "validation": {
     "email": "Email address is not valid",
     "emailRequired": "Typing in your email would definitely hit the spot :)",

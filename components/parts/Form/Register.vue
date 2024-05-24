@@ -48,26 +48,25 @@ type SignupForm = {
   terms?: boolean;
 };
 
-const { t } = useI18n();
 const message = useMessage();
-const user = useUserStore();
+const authStore = useAuthStore();
 const emit = defineEmits(['submitSuccess']);
 
 const formRef = ref<FormInst | null>(null);
 const loading = ref<boolean>(false);
 
 const formData = ref<SignupForm>({
-  username: user.username,
-  email: user.email,
+  username: '',
+  email: '',
   terms: false,
 });
 
 const rules: FormRules = {
   email: [
-    ruleRequired(t('validation.emailRequired')),
+    ruleRequired('Typing in your email would definitely hit the spot :)'),
     {
       type: 'email',
-      message: t('validation.email'),
+      message: 'Email address is not valid',
     },
   ],
   terms: [
@@ -75,7 +74,7 @@ const rules: FormRules = {
       validator(_: FormItemRule, value: string) {
         return !!value;
       },
-      message: t('validation.terms'),
+      message: 'Please accept the terms',
       trigger: 'change',
     },
   ],
@@ -98,7 +97,7 @@ async function register() {
 
   try {
     const res = await $api.post<UserResponse>('/users', formData.value);
-    user.setUser(res.data);
+    authStore.setUser(res.data);
 
     message.success('User created');
     emit('submitSuccess');

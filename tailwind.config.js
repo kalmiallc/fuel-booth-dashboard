@@ -21,6 +21,25 @@ module.exports = {
       green: '#00cd75',
       brand: '#00e182',
       background: '#0e0e0e',
+      border: '#2F3135',
+      gray: '#18191B',
+      text: '#ABB7C2',
+      tag: '#27292C',
+
+      dark: {
+        bg: '#0e0e0e',
+        border: '#2F3135',
+        overlay: '#18191B',
+        text: '#ABB7C2',
+        tag: '#27292C',
+      },
+      light: {
+        bg: '#F9F9F9',
+        border: '#E0E1E7',
+        overlay: '#FFFFFF',
+        text: '#6C646C',
+        tag: '#F0F0F3',
+      },
     },
 
     fontFamily: {

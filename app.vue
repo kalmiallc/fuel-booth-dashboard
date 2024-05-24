@@ -2,29 +2,6 @@
 import { lightTheme, darkTheme, enUS, dateEnUS } from 'naive-ui';
 import { themeOverrides } from '~/lib/config/naive';
 
-const $i18n = useI18n();
-window.$i18n = $i18n;
-
-const lang = computed(() => {
-  return $i18n.locale.value;
-});
-const locale = computed(() => {
-  switch ($i18n.locale.value) {
-    case 'en':
-      return enUS;
-    default:
-      return enUS;
-  }
-});
-const dateLocale = computed(() => {
-  switch ($i18n.locale.value) {
-    case 'en':
-      return dateEnUS;
-    default:
-      return dateEnUS;
-  }
-});
-
 const prefersDarkTheme = false;
 const themeName = prefersDarkTheme ? 'dark' : 'light';
 
@@ -35,7 +12,7 @@ const theme = computed(() => {
 useHead({
   htmlAttrs: {
     class: themeName,
-    lang,
+    lang: 'en',
   },
 });
 </script>
@@ -45,12 +22,12 @@ useHead({
     <n-config-provider
       :theme="theme"
       :theme-overrides="themeOverrides"
-      :locale="locale"
-      :date-locale="dateLocale"
+      :locale="enUS"
+      :date-locale="dateEnUS"
       data-scroll
       class="relative flex h-full flex-col overflow-x-hidden"
     >
-      <n-message-provider>
+      <n-message-provider :keep-alive-on-hover="true" :duration="3000" closable>
         <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>

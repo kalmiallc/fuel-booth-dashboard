@@ -4,3 +4,7 @@
     <NuxtPage />
   </div>
 </template>
+<script lang="ts" setup>
+window.$i18n = useI18n();
+window.$message = useMessage();
+</script>

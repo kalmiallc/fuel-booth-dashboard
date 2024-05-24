@@ -88,6 +88,7 @@ export const ErrorCodes = {
  * Error messages
  */
 export function userFriendlyMsg(error: ApiError | ReferenceError | TypeError | DOMException | any) {
+  console.log(error);
   // Check error exists and if translation is included
   if (!window.$i18n || !(window.$i18n instanceof Object) || !error) {
     if (error instanceof ReferenceError || error instanceof TypeError) {
@@ -118,7 +119,7 @@ export function userFriendlyMsg(error: ApiError | ReferenceError | TypeError | D
 }
 
 /** Translate single error message */
-function singleErrorMessage($i18n: i18nType, message: string, statusCode: number = 0) {
+function singleErrorMessage($i18n: any, message: string, statusCode: number = 0) {
   const code = takeFirstDigitsFromNumber(statusCode);
   if ($i18n.te(`error.${message}`)) {
     return $i18n.t(`error.${message}`);

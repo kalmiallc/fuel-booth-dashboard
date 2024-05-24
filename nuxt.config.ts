@@ -59,7 +59,7 @@ export default defineNuxtConfig({
       AutoImport({
         imports: [
           {
-            'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar'],
+            'naive-ui': ['useMessage'],
           },
         ],
       }),
@@ -67,23 +67,11 @@ export default defineNuxtConfig({
       Components({
         resolvers: [NaiveUiResolver()],
       }),
-
-      nodePolyfills(),
     ],
 
     optimizeDeps: {
-      include:
-        // must use NODE_ENV (to build production version with dev config)
-        process.env.NODE_ENV === Environments.dev
-          ? ['naive-ui', 'vueuc', 'date-fns-tz/formatInTimeZone']
-          : [],
+      include: process.env.NODE_ENV === 'development' ? ['naive-ui'] : [],
     },
-
-    // build: {
-    //   commonjsOptions: {
-    //     transformMixedEsModules: true,
-    //   },
-    // },
   },
 
   build: {
@@ -120,7 +108,7 @@ export default defineNuxtConfig({
       ],
 
       link: [
-        { rel: 'icon', type: 'image/png', href: '/images/favicon.png' },
+        { rel: 'icon', type: 'image/png', href: '/images/favicon.svg' },
         {
           rel: 'preconnect',
           href: 'https://fonts.gstatic.com',
