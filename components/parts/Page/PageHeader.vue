@@ -15,13 +15,15 @@
             >
               Developers
             </a>
+            <NuxtIcon name="chain" />
           </span>
           <span class="inline-flex items-center gap-1">
             <a
               href="https://forum.fuel.network"
               class="rt-Text rt-reset rt-Link text-color desktop:data-[active=true]:before:content-[&quot;&quot;] desktop:data-[active=true]:before:absolute desktop:data-[active=true]:before:block desktop:data-[active=true]:before:w-full desktop:data-[active=true]:before:h-1 desktop:data-[active=true]:before:bg-brand desktop:data-[active=true]:before:top-[-24px] fuel-NavMenuItem fuel-Link rt-underline-auto relative flex h-auto items-center gap-2 hover:text-brand data-[active=true]:text-brand"
-              >Community</a
             >
+              Community
+            </a>
             <NuxtIcon name="chain" />
           </span>
           <span class="inline-flex items-center gap-1">

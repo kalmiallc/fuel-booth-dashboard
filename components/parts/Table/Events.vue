@@ -2,10 +2,9 @@
   <n-data-table
     :bordered="false"
     :columns="columns"
-    :data="userStore.items"
-    :loading="userStore.loading"
+    :data="events"
     :pagination="{
-      ...userStore.pagination,
+      pageSize: PAGINATION_LIMIT,
       prefix: ({ itemCount }) => $t('general.total', { total: itemCount }),
     }"
   />
@@ -14,41 +13,39 @@
 <script lang="ts" setup>
 import { type DataTableColumns } from 'naive-ui';
 
-const userStore = useUserStore();
+defineProps({
+  title: { type: String, default: 'Transactions' },
+  events: { type: Array<GameEvent>, default: [] },
+});
 
-const columns = computed<DataTableColumns<UserInterface>>(() => {
+const columns = computed<DataTableColumns<GameEvent>>(() => {
   return [
     {
-      key: 'username',
-      title: 'Username',
-    },
-    {
-      key: 'email',
-      title: 'Email',
+      key: 'id',
+      title: 'ID',
+      render(row: GameEvent) {
+        return h(resolveComponent('TableEllipsis'), { text: row.id }, '');
+      },
     },
     {
       key: 'damage',
       title: 'Damage',
+      minWidth: 100,
     },
     {
       key: 'distance',
       title: 'Distance',
-    },
-    {
-      key: 'high_score',
-      title: 'High score',
-    },
-    {
-      key: 'score_type',
-      title: 'score_type',
+      minWidth: 100,
     },
     {
       key: 'speed',
       title: 'Speed',
+      minWidth: 100,
     },
     {
-      key: 'time_seconds',
+      key: 'time',
       title: 'Time seconds',
+      minWidth: 100,
     },
   ];
 });

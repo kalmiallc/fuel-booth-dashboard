@@ -6,7 +6,11 @@ defineProps({
 
 <template>
   <div class="mb-6">
-    <a :href="`/tx/${transaction.id}/simple`" class="text-dark-text no-underline">
+    <a
+      :href="`https://app.fuel.network/tx/${transaction.id}/simple`"
+      class="text-dark-text no-underline"
+      target="_blank"
+    >
       <div
         class="flex justify-between items-center gap-4 p-4 bg-dark-overlay border-1 border-border rounded-md text-dark-text"
       >

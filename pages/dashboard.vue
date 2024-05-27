@@ -1,6 +1,11 @@
 <script lang="ts" setup>
-import { read_address_events, read_last_events } from '~/lib/utils/fuel';
+import {
+  read_address_events,
+  read_address_events_receipts,
+  read_last_events,
+} from '~/lib/utils/fuel';
 
+const authStore = useAuthStore();
 const balanceStore = useBalanceStore();
 const playerStore = usePlayerStore();
 const scoreStore = useScoreStore();
@@ -13,6 +18,7 @@ useHead({
 
 const transactions = ref<Transaction[]>([]);
 const userTransactions = ref<Transaction[]>([]);
+const events = ref<GameEvent[]>([]);
 
 onMounted(async () => {
   balanceStore.getBalance();
@@ -20,8 +26,13 @@ onMounted(async () => {
   // scoreStore.getScore();
   userStore.getUsers();
 
+  events.value = await read_address_events_receipts();
   transactions.value = await read_last_events();
   userTransactions.value = await read_address_events();
+
+  setInterval(async () => {
+    events.value = await read_address_events_receipts();
+  }, 3000);
 });
 </script>
 
@@ -30,14 +41,23 @@ onMounted(async () => {
     <template #1>
       <div class="min-h-40">
         <Player />
+        <TableEvents :events="events" />
         <Transactions :transactions="transactions" />
         <Transactions title="User transactions" :transactions="userTransactions" />
       </div>
     </template>
     <template #2>
       <div class="min-h-40">
-        <TableUsers />
-        <TablePlayers />
+        <n-space size="large" vertical>
+          <!-- Players (from chain) -->
+          <h2>TOP Players</h2>
+          <TablePlayers />
+
+          <!-- User (from DB)
+          <h2>Users</h2>
+          <TableUsers /> 
+          -->
+        </n-space>
       </div>
     </template>
   </n-split>

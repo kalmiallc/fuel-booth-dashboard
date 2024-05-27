@@ -36,7 +36,7 @@ export const usePlayerStore = defineStore('player', {
 
       this.loading = true;
       try {
-        const res = await $api.get<PlayersResponse>('/players', undefined, undefined, {
+        const res = await $api.get<PlayersResponse>('/players', { limit: 100000 }, undefined, {
           signal: abortController.signal,
         });
 

@@ -16,6 +16,14 @@ h2 {
   @apply font-grotesk text-xl font-bold text-black;
 }
 
+h3 {
+  @apply font-grotesk text-2xl font-bold;
+}
+
+a {
+  @apply text-dark-text;
+}
+
 button {
   @apply font-grotesk-mono;
 }
@@ -33,5 +41,5 @@ button {
 }
 
 .page-container {
-  @apply mx-auto w-full max-w-[90vw] px-4 lg:max-w-[1440px];
+  @apply mx-auto w-full max-w-[90vw] px-4 lg:max-w-[1640px];
 }

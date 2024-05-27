@@ -1,3 +1,5 @@
+const address = '0x5921c7347d9de7b6ef5b6ca9cdf9b0bc0056f48f16e5a3fcf669f1996ef4f3f1';
+
 const LATEST_TRANSACTIONS_QUERY = `
   query LatestTransactions {
     transactions(last: 15) {
@@ -92,7 +94,121 @@ const TRANS_V_1_QUERY = `
     }
   }
   `;
-const address = '0xeeff1c9a4d500e3af174d0db0115ef2917d9e804e68009b5c1e12aeaffb1323c';
+const TRANS_V_2_QUERY = `
+  query Transactions($address: Address) {
+    transactionsByOwner(owner: $address, first: 300) {
+      nodes {
+        id
+        isScript
+        rawPayload
+        receipts {
+          __typename
+          ... on Receipt {
+            receiptType
+            data
+          }
+        }
+      }
+    }
+  }
+  `;
+const TRANS_TRACK_EVENT_QUERY = `
+    query Transactions($address: Address) {
+      transactionsByOwner(owner: $address, first: 300) {
+        nodes {
+          receipts {
+            __typename
+            receiptType
+            data
+          }
+        }
+      }
+    }
+  `;
+
+export async function read_address_events_receipts() {
+  const extractAndConvertValuesFromHex = hexString => {
+    // Remove the '0x' prefix if present
+    const cleanHex = hexString.startsWith('0x') ? hexString.slice(2) : hexString;
+    // Define the positions and lengths of the values to extract
+    const positions = [
+      { start: 0, length: 16 },
+      { start: 16, length: 16 },
+      { start: 32, length: 16 },
+      { start: 48, length: 16 },
+      { start: 64, length: 16 },
+      { start: 80, length: 64 }, // This position (username-hash) will be skipped for number conversion
+    ];
+    // Extract values based on defined positions
+    const hexValues = positions.map(pos => cleanHex.slice(pos.start, pos.start + pos.length));
+    // Convert hex values to decimal, except for the last one (username-hash) which remains in hex
+    const decimalValues = hexValues.slice(0, -1).map(value => parseInt(value, 16));
+    const lastValue = hexValues[hexValues.length - 1];
+    return [...decimalValues, lastValue];
+  };
+  // Function to filter and log track events
+  const logTrackEvents = logDataFields => {
+    logDataFields.forEach(hexString => {
+      const values = extractAndConvertValuesFromHex(hexString);
+      // Check if the value at position [2] is 0 (position 2 is status)
+      // 0 = track -> we use this event in the list of transactions
+      // 1 = final -> we skip using this data in the list of transactions
+      if (values[2] === 0) {
+        console.log('Track Event:');
+        console.log('Time:', values[0]);
+        console.log('Speed:', values[1]);
+        console.log('Damage:', values[3]);
+        console.log('Distance:', values[4]);
+        console.log('Identifier:', values[5]);
+      }
+    });
+  };
+  // Function to filter and log track events
+  const parseValuesToObject = values => {
+    return {
+      time: values[0],
+      speed: values[1],
+      score_type: values[2],
+      damage: values[3],
+      distance: values[4],
+      id: values[5],
+    };
+  };
+
+  try {
+    let response = await fetch('https://beta-5.fuel.network/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        query: TRANS_TRACK_EVENT_QUERY,
+        variables: {
+          address: address,
+        },
+      }),
+    });
+    let data = await response.json();
+
+    const transactions = data['data']['transactionsByOwner']['nodes'];
+    // Flatten the array of receipts
+    const allReceipts = transactions.flatMap(tx => tx.receipts);
+    // Filter receipts by type 'LOG_DATA'
+    const logDataReceipts = allReceipts.filter(receipt => receipt.receiptType === 'LOG_DATA');
+    const logDataFields = logDataReceipts.map(receipt => receipt.data);
+
+    return logDataFields.reduce((accumulator, hexString) => {
+      const convertedValues = extractAndConvertValuesFromHex(hexString);
+      return convertedValues[2] === 0
+        ? [...accumulator, parseValuesToObject(convertedValues)]
+        : accumulator;
+    }, []);
+  } catch (error) {
+    console.error('Failed to fetch receipts data:', error);
+    return [];
+  }
+}
 
 export async function read_address_events() {
   // READS the last transactions of an address (that triggered the event - The System Wallet)
@@ -105,13 +221,13 @@ export async function read_address_events() {
       },
       body: JSON.stringify({
         query: TRANS_V_1_QUERY,
-        variables: {
-          address: address,
-        },
+        variables: { address },
       }),
     });
+
     const res = await req.json();
-    return res.data.transactionsByOwner.nodes;
+    console.log(res);
+    return res.data?.transactionsByOwner?.nodes;
   } catch (error) {
     console.error('Failed to fetch time data:', error);
     return [];
@@ -131,6 +247,7 @@ export async function read_last_events() {
         query: LATEST_TRANSACTIONS_QUERY,
       }),
     });
+
     const res = await req.json();
     return res.data.transactions.nodes;
   } catch (error) {

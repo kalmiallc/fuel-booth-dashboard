@@ -4,7 +4,15 @@ useHead({
   titleTemplate: '',
 });
 
+const router = useRouter();
+const { openGame } = useGame();
+
 onMounted(() => {});
+
+function onRegistered(user: UserInterface) {
+  openGame(user);
+  router.push('/dashboard');
+}
 </script>
 
 <template>
@@ -14,6 +22,6 @@ onMounted(() => {});
       <p class="mb-10 mt-2">Get behind the wheel and feel the speed of Fuel!</p>
     </div>
 
-    <FormRegister @submit-success="$router.push('/dashboard')" />
+    <FormRegister @submit-success="onRegistered" />
   </div>
 </template>

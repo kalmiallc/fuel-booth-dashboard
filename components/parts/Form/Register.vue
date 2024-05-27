@@ -100,7 +100,7 @@ async function register() {
     authStore.setUser(res.data);
 
     message.success('User created');
-    emit('submitSuccess');
+    emit('submitSuccess', res.data);
   } catch (error) {
     message.error(userFriendlyMsg(error));
   }

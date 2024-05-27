@@ -8,7 +8,7 @@ let abortUsers = null as AbortController | null;
 export const useUserStore = defineStore('user', {
   state: () => ({
     items: [] as Array<UserInterface>,
-    loading: false, 
+    loading: false,
     pagination: {
       page: 1,
       pageSize: PAGINATION_LIMIT,
@@ -29,7 +29,7 @@ export const useUserStore = defineStore('user', {
     /**
      * API calls
      */
-    async getUsers(page?: number): Promise<UserInterface[]> {
+    async getUsers(): Promise<UserInterface[]> {
       if (abortUsers) {
         abortUsers.abort();
       }
@@ -39,8 +39,8 @@ export const useUserStore = defineStore('user', {
 
       try {
         const params: Record<string, string | number> = {
-          page: page || 1,
-          limit: PAGINATION_LIMIT,
+          page: 1,
+          limit: 100000,
           orderBy: 'createTime',
           desc: 'true',
         };
