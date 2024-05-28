@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="my-10">
+  <div>
     <h2 class="text-heading border-b pb-2 font-medium tracking-tight" data-size="2">
       <NuxtIcon name="list" />
       {{ title }}

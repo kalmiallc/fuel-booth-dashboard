@@ -8,6 +8,7 @@
       pageSize: playerStore.pagination.pageSize,
       prefix: ({ itemCount }) => $t('general.total', { total: itemCount }),
     }"
+    @update:page="e => (page = e)"
   />
 </template>
 
@@ -19,6 +20,7 @@ interface Player extends PlayerInterface, UserInterface {}
 const playerStore = usePlayerStore();
 const userStore = useUserStore();
 
+const page = ref(1);
 const data = computed(() => {
   return playerStore.items.map(player => {
     const user = userStore.items.find(item => item.player_contract_index_id === player.playerId);
@@ -28,6 +30,29 @@ const data = computed(() => {
 
 const columns = computed<DataTableColumns<Player>>(() => {
   return [
+    {
+      key: 'place',
+      title: 'Position',
+      className: 'text-center',
+      minWidth: 40,
+      render(row: GameEvent, index) {
+        const icon = index === 0 ? 'trophy-gold' : index === 1 ? 'trophy-silver' : 'trophy-bronze';
+
+        if (page.value === 1 && index < 3) {
+          return h(
+            resolveComponent('NuxtIcon'),
+            { name: icon, filled: true, class: 'text-3xl' },
+            ''
+          );
+        } else {
+          return h(
+            'span',
+            { class: 'block text-center pr-2' },
+            (page.value - 1) * playerStore.pagination.pageSize + index + 1
+          );
+        }
+      },
+    },
     {
       key: 'username',
       title: 'Username',

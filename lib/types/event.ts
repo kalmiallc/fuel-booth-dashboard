@@ -10,6 +10,6 @@ declare global {
     score_type: number;
     damage: number;
     distance: number;
-    id: String;
+    id: string;
   };
 }

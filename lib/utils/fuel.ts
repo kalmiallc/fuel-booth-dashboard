@@ -144,7 +144,7 @@ export async function read_address_events_receipts() {
     // Convert hex values to decimal, except for the last one (username-hash) which remains in hex
     const decimalValues = hexValues.slice(0, -1).map(value => parseInt(value, 16));
     const lastValue = hexValues[hexValues.length - 1];
-    return [...decimalValues, lastValue];
+    return [...decimalValues, `0x${lastValue}`];
   };
   // Function to filter and log track events
   const logTrackEvents = logDataFields => {
@@ -198,12 +198,14 @@ export async function read_address_events_receipts() {
     const logDataReceipts = allReceipts.filter(receipt => receipt.receiptType === 'LOG_DATA');
     const logDataFields = logDataReceipts.map(receipt => receipt.data);
 
-    return logDataFields.reduce((accumulator, hexString) => {
-      const convertedValues = extractAndConvertValuesFromHex(hexString);
-      return convertedValues[2] === 0
-        ? [...accumulator, parseValuesToObject(convertedValues)]
-        : accumulator;
-    }, []);
+    return logDataFields
+      .reduce((accumulator, hexString) => {
+        const convertedValues = extractAndConvertValuesFromHex(hexString);
+        return convertedValues[2] === 0
+          ? [...accumulator, parseValuesToObject(convertedValues)]
+          : accumulator;
+      }, [])
+      .reverse();
   } catch (error) {
     console.error('Failed to fetch receipts data:', error);
     return [];

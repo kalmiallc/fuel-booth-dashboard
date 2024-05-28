@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray text-dark-text p-4">
+  <div class="bg-gray text-dark-text p-4 font-va">
     <n-flex justify="space-between">
       <h1>GO {{ authStore.user.username }}!</h1>
       <Btn @click="openGame(authStore.user)">Play</Btn>
@@ -28,6 +28,7 @@
 <script lang="ts" setup>
 const authStore = useAuthStore();
 const playerStore = usePlayerStore();
+const userStore = useUserStore();
 const { openGame } = useGame();
 
 const place = computed(() => {
@@ -44,7 +45,8 @@ onMounted(() => {
 
     if (lastScoreType !== authStore.user.score_type) {
       playerStore.getPlayers();
+      userStore.getUsers();
     }
-  }, 10000);
+  }, 3000);
 });
 </script>

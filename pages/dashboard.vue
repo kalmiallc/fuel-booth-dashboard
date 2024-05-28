@@ -39,12 +39,12 @@ onMounted(async () => {
 <template>
   <n-split direction="horizontal" class="min-h-40 gap-4" :max="0.75" :min="0.25">
     <template #1>
-      <div class="min-h-40">
+      <n-space class="min-h-40" :size="40" vertical>
         <Player />
         <TableEvents :events="events" />
         <Transactions :transactions="transactions" />
         <Transactions title="User transactions" :transactions="userTransactions" />
-      </div>
+      </n-space>
     </template>
     <template #2>
       <div class="min-h-40">
@@ -53,10 +53,9 @@ onMounted(async () => {
           <h2>TOP Players</h2>
           <TablePlayers />
 
-          <!-- User (from DB)
+          <!-- User (from DB) -->
           <h2>Users</h2>
-          <TableUsers /> 
-          -->
+          <TableUsers />
         </n-space>
       </div>
     </template>

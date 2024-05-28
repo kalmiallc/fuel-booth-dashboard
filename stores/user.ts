@@ -38,10 +38,10 @@ export const useUserStore = defineStore('user', {
       this.loading = true;
 
       try {
-        const params: Record<string, string | number> = {
+        const params: Record<string, string | number | Array<any>> = {
           page: 1,
           limit: 100000,
-          orderBy: 'createTime',
+          sortBy: ['high_score'],
           desc: 'true',
         };
 
