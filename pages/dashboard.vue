@@ -11,10 +11,9 @@ const config = useRuntimeConfig();
 const events = ref<GameEvent[]>([]);
 
 onMounted(async () => {
-  console.log(config);
+  console.log(config.public);
   events.value = await read_address_events_receipts(config.public.SIGNER_ADDRESS);
-  console.log(events.value);
-
+  
   setInterval(async () => {
     events.value = await read_address_events_receipts(config.public.SIGNER_ADDRESS);
   }, 3000);
