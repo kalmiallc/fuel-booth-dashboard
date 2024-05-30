@@ -1,7 +1,6 @@
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import dev from './lib/config/development';
 import stg from './lib/config/staging';
 import prod from './lib/config/production';
@@ -14,8 +13,6 @@ if (env === Environments.prod) {
   CONFIG = prod;
 } else if (env === Environments.stg) {
   CONFIG = stg;
-} else if (env === Environments.beta) {
-  CONFIG = beta;
 }
 
 // @TODO
@@ -35,6 +32,9 @@ export default defineNuxtConfig({
       API_BASE: CONFIG.API_BASE || 'https://api-game.fuel.network/',
       APP_URL: CONFIG.APP_URL || 'https://app-game.fuel.network/',
       GAME_URL: CONFIG.GAME_URL || 'https://game.fuel.network/',
+      SIGNER_ADDRESS:
+        CONFIG.SIGNER_ADDRESS ||
+        '0xe58df86a96a6d74bf4481657ed4b083d455df4aa05ae86a149f5d2b24db2262a',
       ENV: env || Environments.dev,
     },
   },

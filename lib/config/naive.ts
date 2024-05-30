@@ -2,15 +2,15 @@ import type { GlobalThemeOverrides } from 'naive-ui';
 
 export const themeOverrides: GlobalThemeOverrides = {
   common: {
-    fontFamily: 'Inter, ui-sans-serif, system-ui',
+    fontFamily: 'GeistSans',
     fontSize: '16px',
     lineHeight: '1.5',
-    primaryColor: '#34CFC6',
-    primaryColorHover: '#37dbd3',
-    primaryColorPressed: '#30bfb8',
-    primaryColorSuppl: '#37dbd3',
+    primaryColor: '#00e182',
+    primaryColorHover: '#00cd75',
+    primaryColorPressed: '#00cd75',
+    primaryColorSuppl: '#3dd68c',
     errorColor: '#F75A5A',
-    successColor: '#16C123',
+    successColor: '#00e182',
     placeholderColor: '#C4C4C4',
   },
 
@@ -22,16 +22,14 @@ export const themeOverrides: GlobalThemeOverrides = {
     heightSmall: '40px',
     borderRadiusSmall: '8px',
     fontSizeSmall: '16px',
-    textColorGhostPrimary: '#1B2626',
+    textColorGhostPrimary: '#18191B',
   },
 
-  Dropdown: {
-    padding: '32px',
-    color: '#F6F7FA',
-    optionIconSizeMedium: '20px',
-    optionHeightMedium: '36px',
-    borderRadius: '10px',
-    fontSizeLarge: '20px',
+  DataTable: {
+    borderColor: '#E0E1E7',
+    thColor: '#0e0e0e',
+    tdColorHover: '#F0F0F3',
+    thTextColor: '#ABB7C2',
   },
 
   Form: {
@@ -53,7 +51,7 @@ export const themeOverrides: GlobalThemeOverrides = {
     paddingSmall: '8px 12px',
     fontSizeSmall: '16px',
     borderRadius: '8px',
-    border: '1px solid #D0D0D0',
+    border: '1px solid #E0E1E7',
   },
 
   Popover: {

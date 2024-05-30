@@ -44,12 +44,11 @@ import { userFriendlyMsg } from '~/lib/misc/errors';
 
 type SignupForm = {
   username: string;
-  email: string;
+  email: string | null;
   terms?: boolean;
 };
 
 const message = useMessage();
-const authStore = useAuthStore();
 const emit = defineEmits(['submitSuccess']);
 
 const formRef = ref<FormInst | null>(null);
@@ -57,13 +56,13 @@ const loading = ref<boolean>(false);
 
 const formData = ref<SignupForm>({
   username: '',
-  email: '',
+  email: null,
   terms: false,
 });
 
 const rules: FormRules = {
   email: [
-    ruleRequired('Typing in your email would definitely hit the spot :)'),
+    // ruleRequired('Typing in your email would definitely hit the spot :)'),
     {
       type: 'email',
       message: 'Email address is not valid',
@@ -97,9 +96,6 @@ async function register() {
 
   try {
     const res = await $api.post<UserResponse>('/users', formData.value);
-    authStore.setUser(res.data);
-
-    message.success('User created');
     emit('submitSuccess', res.data);
   } catch (error) {
     message.error(userFriendlyMsg(error));

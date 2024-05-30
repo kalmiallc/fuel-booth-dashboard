@@ -1,5 +1,3 @@
-const address = '0x5921c7347d9de7b6ef5b6ca9cdf9b0bc0056f48f16e5a3fcf669f1996ef4f3f1';
-
 const LATEST_TRANSACTIONS_QUERY = `
   query LatestTransactions {
     transactions(last: 15) {
@@ -126,7 +124,7 @@ const TRANS_TRACK_EVENT_QUERY = `
     }
   `;
 
-export async function read_address_events_receipts() {
+export async function read_address_events_receipts(address: string) {
   const extractAndConvertValuesFromHex = hexString => {
     // Remove the '0x' prefix if present
     const cleanHex = hexString.startsWith('0x') ? hexString.slice(2) : hexString;
@@ -184,9 +182,7 @@ export async function read_address_events_receipts() {
       },
       body: JSON.stringify({
         query: TRANS_TRACK_EVENT_QUERY,
-        variables: {
-          address: address,
-        },
+        variables: { address },
       }),
     });
     let data = await response.json();
@@ -212,7 +208,7 @@ export async function read_address_events_receipts() {
   }
 }
 
-export async function read_address_events() {
+export async function read_address_events(address: string) {
   // READS the last transactions of an address (that triggered the event - The System Wallet)
   try {
     const req = await fetch('https://beta-5.fuel.network/graphql', {

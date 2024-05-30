@@ -10,10 +10,7 @@ export const Environments = {
 export const WebStorageKeys = {
   APP_VERSION: 'fuel_version',
   LANGUAGE: 'fuel_lang',
-  AUTH: 'fuel_auth',
-  BALANCE: 'fuel_balance',
   PLAYER: 'fuel_player',
-  SCORE: 'fuel_score',
   USER: 'fuel_user',
 };
 

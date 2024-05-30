@@ -9,23 +9,19 @@
 
 h1,
 .text-h1 {
-  @apply font-grotesk text-[2.5rem] font-bold leading-tight text-green md:text-[3rem] lg:text-[4rem];
+  @apply text-[2.5rem] font-bold leading-tight text-green md:text-[3rem] lg:text-[4rem];
 }
 
 h2 {
-  @apply font-grotesk text-xl font-bold text-black;
+  @apply text-xl font-bold text-black;
 }
 
 h3 {
-  @apply font-grotesk text-2xl font-bold;
+  @apply text-2xl font-bold;
 }
 
 a {
   @apply text-dark-text;
-}
-
-button {
-  @apply font-grotesk-mono;
 }
 
 #fuel .nuxt-icon {

@@ -4,6 +4,7 @@ export interface ConfigInterface {
   APP_URL: string;
   GAME_URL: string;
   API_BASE: string;
+  SIGNER_ADDRESS: string;
 }
 
 declare global {

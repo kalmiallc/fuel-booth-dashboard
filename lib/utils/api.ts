@@ -127,10 +127,6 @@ class Api {
       const error = new Error(`API Error`) as any;
       error.data = errorData;
 
-      if (response.status === 403) {
-        this.onForbidden(errorData, requestData);
-      }
-
       throw error;
     }
 
@@ -146,27 +142,6 @@ class Api {
     } catch (_e) {}
 
     return returnedResponse as T;
-  }
-
-  onForbidden(_errorData: any, _requestData: Request | any) {
-    const route = useRoute();
-    const router = useRouter();
-    const authStore = useAuthStore();
-
-    /**
-     * User does not have permission to view resource.
-     * Log them out and redirect to another page.
-     */
-    if (authStore.loggedIn) {
-      authStore.logout(true);
-    }
-
-    // router.replace({
-    //   path: '/',
-    //   query: {
-    //     to: getEncodedPathAndQuery(route),
-    //   },
-    // });
   }
 }
 

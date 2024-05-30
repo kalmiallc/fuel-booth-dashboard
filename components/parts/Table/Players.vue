@@ -35,7 +35,7 @@ const columns = computed<DataTableColumns<Player>>(() => {
       title: 'Position',
       className: 'text-center',
       minWidth: 40,
-      render(row: GameEvent, index) {
+      render(_, index) {
         const icon = index === 0 ? 'trophy-gold' : index === 1 ? 'trophy-silver' : 'trophy-bronze';
 
         if (page.value === 1 && index < 3) {

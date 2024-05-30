@@ -1,21 +1,20 @@
 <template>
-  <div class="bg-gray text-dark-text p-4 font-va">
+  <div class="bg-dark-bg text-dark-text p-4 font-va">
     <n-flex justify="space-between">
-      <h1>GO {{ authStore.user.username }}!</h1>
-      <Btn @click="openGame(authStore.user)">Play</Btn>
+      <h1>GO {{ username }}!</h1>
     </n-flex>
     <n-flex justify="space-between">
       <div>
         <span>TIME</span>
-        <h3>{{ authStore.user.time_seconds }}</h3>
+        <h3>{{ event.time }}</h3>
       </div>
       <div>
         <span>current speed</span>
-        <h3>{{ authStore.user.speed }}</h3>
+        <h3>{{ event.speed }}</h3>
       </div>
       <div>
         <span>damage</span>
-        <h3>{{ authStore.user.damage }}</h3>
+        <h3>{{ event.damage }}</h3>
       </div>
       <div>
         <span>place</span>
@@ -26,27 +25,28 @@
 </template>
 
 <script lang="ts" setup>
-const authStore = useAuthStore();
+const props = defineProps({
+  event: { type: Object as PropType<GameEvent>, required: true },
+});
 const playerStore = usePlayerStore();
-const userStore = useUserStore();
-const { openGame } = useGame();
 
 const place = computed(() => {
-  const place = playerStore.items.findIndex(
-    item => item.playerId === authStore.user.player_contract_index_id
-  );
+  const place = playerStore.items.findIndex(item => item.username_hash === props.event.id);
   return place ? place + 1 : '?';
 });
 
-onMounted(() => {
-  setInterval(() => {
-    const lastScoreType = authStore.user.score_type;
-    authStore.refresh(true);
-
-    if (lastScoreType !== authStore.user.score_type) {
-      playerStore.getPlayers();
-      userStore.getUsers();
-    }
-  }, 3000);
+const username = computed(() => {
+  const player = playerStore.items.find(item => item.username_hash === props.event.id);
+  return player?.username ? player.username : props.event.id;
 });
+
+watch(
+  () => props.event.id,
+  id => {
+    const player = playerStore.items.find(item => item.username_hash === id);
+    if (player === undefined) {
+      playerStore.getPlayers();
+    }
+  }
+);
 </script>
