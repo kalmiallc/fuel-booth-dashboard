@@ -8,11 +8,14 @@
       ...userStore.pagination,
       prefix: ({ itemCount }) => $t('general.total', { total: itemCount }),
     }"
-    @update:page="e => (page = e)"
+    @update:page="e => (userStore.pagination.page = e)"
   />
 </template>
 
 <script lang="ts" setup>
+import TrophyGold from '~/assets/icons/trophy-gold.svg';
+import TrophySilver from '~/assets/icons/trophy-silver.svg';
+import TrophyBronze from '~/assets/icons/trophy-bronze.svg';
 import { type DataTableColumns } from 'naive-ui';
 
 const userStore = useUserStore();
@@ -21,7 +24,6 @@ onMounted(() => {
   userStore.getUsers();
 });
 
-const page = ref(1);
 const columns = computed<DataTableColumns<UserInterface>>(() => {
   return [
     {
@@ -30,19 +32,14 @@ const columns = computed<DataTableColumns<UserInterface>>(() => {
       className: 'text-center',
       minWidth: 50,
       render(_, index) {
-        const icon = index === 0 ? 'trophy-gold' : index === 1 ? 'trophy-silver' : 'trophy-bronze';
-
-        if (page.value === 1 && index < 3) {
-          return h(
-            resolveComponent('NuxtIcon'),
-            { name: icon, filled: true, class: 'text-3xl' },
-            ''
-          );
+        if (userStore.pagination.page === 1 && index < 3) {
+          const imgSrc = index === 0 ? TrophyGold : index === 1 ? TrophySilver : TrophyBronze;
+          return h('img', { src: imgSrc, class: 'text-3xl' }, '');
         } else {
           return h(
             'span',
             { class: 'block text-center pr-2' },
-            (page.value - 1) * userStore.pagination.pageSize + index + 1
+            (userStore.pagination.page - 1) * userStore.pagination.pageSize + index + 1
           );
         }
       },

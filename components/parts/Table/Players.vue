@@ -8,7 +8,7 @@
       pageSize: playerStore.pagination.pageSize,
       prefix: ({ itemCount }) => $t('general.total', { total: itemCount }),
     }"
-    @update:page="e => (page = e)"
+    @update:page="e => (playerStore.pagination.page = e)"
   />
 </template>
 
@@ -20,7 +20,6 @@ interface Player extends PlayerInterface, UserInterface {}
 const playerStore = usePlayerStore();
 const userStore = useUserStore();
 
-const page = ref(1);
 const data = computed(() => {
   return playerStore.items.map(player => {
     const user = userStore.items.find(item => item.player_contract_index_id === player.playerId);
@@ -38,7 +37,7 @@ const columns = computed<DataTableColumns<Player>>(() => {
       render(_, index) {
         const icon = index === 0 ? 'trophy-gold' : index === 1 ? 'trophy-silver' : 'trophy-bronze';
 
-        if (page.value === 1 && index < 3) {
+        if (playerStore.pagination.page === 1 && index < 3) {
           return h(
             resolveComponent('NuxtIcon'),
             { name: icon, filled: true, class: 'text-3xl' },
@@ -48,7 +47,7 @@ const columns = computed<DataTableColumns<Player>>(() => {
           return h(
             'span',
             { class: 'block text-center pr-2' },
-            (page.value - 1) * playerStore.pagination.pageSize + index + 1
+            (playerStore.pagination.page - 1) * playerStore.pagination.pageSize + index + 1
           );
         }
       },

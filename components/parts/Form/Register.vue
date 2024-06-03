@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import type { FormInst, FormItemRule, FormRules, FormValidationError } from 'naive-ui';
-import { userFriendlyMsg } from '~/lib/misc/errors';
+import { ValidatorErrorCode, apiError, userFriendlyMsg } from '~/lib/misc/errors';
 
 type SignupForm = {
   username: string;
@@ -49,6 +49,7 @@ type SignupForm = {
 };
 
 const message = useMessage();
+const userStore = useUserStore();
 const emit = defineEmits(['submitSuccess']);
 
 const formRef = ref<FormInst | null>(null);
@@ -98,8 +99,26 @@ async function register() {
     const res = await $api.post<UserResponse>('/users', formData.value);
     emit('submitSuccess', res.data);
   } catch (error) {
-    message.error(userFriendlyMsg(error));
+    if (isUsernameAlreadyTaken(error)) {
+      const users = await userStore.getUsers();
+      const user = users.find(
+        item => item.email === formData.value.email && item.username === formData.value.username
+      );
+
+      if (user) {
+        emit('submitSuccess', user);
+      } else {
+        message.error(userFriendlyMsg(error));
+      }
+    } else {
+      message.error(userFriendlyMsg(error));
+    }
   }
   loading.value = false;
+}
+
+function isUsernameAlreadyTaken(e: any) {
+  const { errors } = apiError(e, false, '');
+  return errors.includes(ValidatorErrorCode.PROFILE_USERNAME_ALREADY_TAKEN);
 }
 </script>

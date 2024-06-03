@@ -61,6 +61,22 @@ export function getErrorMsg(code = 500001, defaultMessage = '') {
   return ErrorCodes[code];
 }
 
+/**
+ * Validator Error codes.
+ */
+export enum ValidatorErrorCode {
+  DEFAULT = 422000,
+  PROFILE_EMAIL_NOT_PRESENT = 422001,
+  PROFILE_EMAIL_NOT_VALID = 422002,
+  PROFILE_EMAIL_ALREADY_TAKEN = 422003,
+  USERS_NOT_PRESENT = 422004,
+  PROFILE_USERNAME_NOT_PRESENT = 422005,
+  PROFILE_USERNAME_NOT_VALID = 422006,
+  PROFILE_USERNAME_ALREADY_TAKEN = 422007,
+  DATA_MODEL_STATUS_MISSING = 422100,
+  DATA_MODEL_INVALID_STATUS = 422101,
+}
+
 export const ErrorCodes = {
   // SystemErrorCode
   500000: 'DEFAULT_SYSTEM_ERROR',
@@ -84,6 +100,7 @@ export const ErrorCodes = {
 
   100_422010: 'Username is already taken',
 } as { [k: number]: string };
+
 /**
  * Error messages
  */

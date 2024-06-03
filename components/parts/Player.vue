@@ -37,7 +37,7 @@ const place = computed(() => {
 
 const username = computed(() => {
   const player = playerStore.items.find(item => item.username_hash === props.event.id);
-  return player?.username ? player.username : props.event.id;
+  return player?.username ? player.username : shortHash(props.event.id);
 });
 
 watch(
