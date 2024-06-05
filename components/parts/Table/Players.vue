@@ -20,6 +20,10 @@ interface Player extends PlayerInterface, UserInterface {}
 const playerStore = usePlayerStore();
 const userStore = useUserStore();
 
+onMounted(() => {
+  playerStore.getPlayers();
+});
+
 const data = computed(() => {
   return playerStore.items.map(player => {
     const user = userStore.items.find(item => item.player_contract_index_id === player.playerId);
