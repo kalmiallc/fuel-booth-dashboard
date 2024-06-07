@@ -162,4 +162,11 @@ export default defineNuxtConfig({
   devServer: {
     port: 3003,
   },
+
+  postcss: {
+    plugins: {
+      'postcss-for': {},
+      'postcss-import': {},
+    },
+  },
 });

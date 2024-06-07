@@ -2,12 +2,9 @@
   <n-data-table
     :bordered="false"
     :columns="columns"
-    :data="userStore.items"
+    :data="userStore.items.splice(0, 10)"
     :loading="userStore.loading"
-    :pagination="{
-      ...userStore.pagination,
-      prefix: ({ itemCount }) => $t('general.total', { total: itemCount }),
-    }"
+    :pagination="false"
     @update:page="e => (userStore.pagination.page = e)"
   />
 </template>

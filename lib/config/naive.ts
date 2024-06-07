@@ -28,6 +28,7 @@ export const themeOverrides: GlobalThemeOverrides = {
   DataTable: {
     borderColor: '#E0E1E7',
     thColor: '#0e0e0e',
+    tdColor: 'transparent',
     tdColorHover: '#F0F0F3',
     thTextColor: '#ABB7C2',
   },
