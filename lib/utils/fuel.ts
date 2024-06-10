@@ -1,3 +1,19 @@
+enum ReceiptType {
+  Call = 0,
+  Return = 1,
+  ReturnData = 2,
+  Panic = 3,
+  Revert = 4,
+  Log = 5,
+  LogData = 6,
+  Transfer = 7,
+  TransferOut = 8,
+  ScriptResult = 9,
+  MessageOut = 10,
+  Mint = 11,
+  Burn = 12,
+}
+
 const LATEST_TRANSACTIONS_QUERY = `
   query LatestTransactions {
     transactions(last: 15) {
@@ -111,17 +127,33 @@ const TRANS_V_2_QUERY = `
   }
   `;
 const TRANS_TRACK_EVENT_QUERY = `
-    query Transactions($address: Address) {
-      transactionsByOwner(owner: $address, first: 300) {
-        nodes {
-          receipts {
-            __typename
-            receiptType
-            data
+  query Transactions($address: Address) {
+    transactionsByOwner(owner: $address, first: 100000) {
+      nodes {
+        id
+        isScript
+        receiptsRoot
+        status {
+          __typename
+          ... on SuccessStatus {            
+            receipts {
+              __typename
+              ... on Receipt {
+                receiptType
+                data
+              }
+            }
+          }
+          ... on FailureStatus {
+            reason
+            programState {
+              returnType
+            }
           }
         }
       }
     }
+  }
   `;
 
 export async function read_address_events_receipts(address: string) {
@@ -174,7 +206,7 @@ export async function read_address_events_receipts(address: string) {
   };
 
   try {
-    let response = await fetch('https://beta-5.fuel.network/graphql', {
+    let response = await fetch('https://testnet.fuel.network/v1/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -189,7 +221,7 @@ export async function read_address_events_receipts(address: string) {
 
     const transactions = data['data']['transactionsByOwner']['nodes'];
     // Flatten the array of receipts
-    const allReceipts = transactions.flatMap(tx => tx.receipts);
+    const allReceipts = transactions.flatMap(tx => tx.status.receipts);
     // Filter receipts by type 'LOG_DATA'
     const logDataReceipts = allReceipts.filter(receipt => receipt.receiptType === 'LOG_DATA');
     const logDataFields = logDataReceipts.map(receipt => receipt.data);
@@ -197,7 +229,7 @@ export async function read_address_events_receipts(address: string) {
     return logDataFields
       .reduce((accumulator, hexString) => {
         const convertedValues = extractAndConvertValuesFromHex(hexString);
-        return convertedValues[2] === 0
+        return convertedValues[1] === 0
           ? [...accumulator, parseValuesToObject(convertedValues)]
           : accumulator;
       }, [])
@@ -211,7 +243,7 @@ export async function read_address_events_receipts(address: string) {
 export async function read_address_events(address: string) {
   // READS the last transactions of an address (that triggered the event - The System Wallet)
   try {
-    const req = await fetch('https://beta-5.fuel.network/graphql', {
+    const req = await fetch('https://devnet.fuel.network/v1/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -235,7 +267,7 @@ export async function read_address_events(address: string) {
 export async function read_last_events() {
   // reads all last events from chain
   try {
-    let req = await fetch('https://beta-5.fuel.network/graphql', {
+    let req = await fetch('https://devnet.fuel.network/v1/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
