@@ -13,6 +13,11 @@ enum ReceiptType {
   Mint = 11,
   Burn = 12,
 }
+const statusMessages = {
+  0: 'Racing Event',
+  1: 'Finished Event',
+  2: 'Destroyed Event',
+};
 
 const LATEST_TRANSACTIONS_QUERY = `
   query LatestTransactions {
@@ -165,9 +170,7 @@ export async function read_address_events_receipts(address: string) {
       { start: 0, length: 16 },
       { start: 16, length: 16 },
       { start: 32, length: 16 },
-      { start: 48, length: 16 },
-      { start: 64, length: 16 },
-      { start: 80, length: 64 }, // This position (username-hash) will be skipped for number conversion
+      { start: 48, length: 64 }, // This position (username-hash) will be skipped for number conversion
     ];
     // Extract values based on defined positions
     const hexValues = positions.map(pos => cleanHex.slice(pos.start, pos.start + pos.length));
@@ -176,20 +179,21 @@ export async function read_address_events_receipts(address: string) {
     const lastValue = hexValues[hexValues.length - 1];
     return [...decimalValues, `0x${lastValue}`];
   };
+
   // Function to filter and log track events
   const logTrackEvents = logDataFields => {
     logDataFields.forEach(hexString => {
       const values = extractAndConvertValuesFromHex(hexString);
-      // Check if the value at position [2] is 0 (position 2 is status)
-      // 0 = track -> we use this event in the list of transactions
-      // 1 = final -> we skip using this data in the list of transactions
-      if (values[2] === 0) {
-        console.log('Track Event:');
-        console.log('Time:', values[0]);
-        console.log('Speed:', values[1]);
-        console.log('Damage:', values[3]);
-        console.log('Distance:', values[4]);
-        console.log('Identifier:', values[5]);
+      const status = values[1];
+      const message = statusMessages[status];
+      if (message) {
+        console.log(
+          `|${status}||${message}(Time: ${values[0]} Distance: ${values[2]})\nHash Identifier: ${values[3]}`
+        );
+      } else {
+        console.log(
+          `|${status}||Unknown Event(Time: ${values[0]} Distance: ${values[2]})\nHash Identifier: ${values[3]}`
+        );
       }
     });
   };
@@ -197,11 +201,8 @@ export async function read_address_events_receipts(address: string) {
   const parseValuesToObject = values => {
     return {
       time: values[0],
-      speed: values[1],
-      score_type: values[2],
-      damage: values[3],
-      distance: values[4],
-      id: values[5],
+      distance: values[2],
+      id: values[3],
     };
   };
 
