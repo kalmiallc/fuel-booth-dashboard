@@ -29,14 +29,14 @@ module.exports = {
       tag: '#27292C',
 
       green: {
-        bg: '#00ff9f',
-        DEFAULT: '#00cd75',
+        bg: '#19342A',
+        DEFAULT: '#00F58C',
         light: '#3dd68c',
       },
 
       dark: {
         bg: '#0e0e0e',
-        border: '#2F3135',
+        border: '#2e3135',
         overlay: '#18191B',
         text: '#ABB7C2',
         tag: '#27292C',
@@ -51,22 +51,10 @@ module.exports = {
     },
 
     fontFamily: {
-      GeistMono: [
-        'GeistMono',
-        'ui-monospace',
-        'SFMono-Regular',
-        'Roboto Mono',
-        'Menlo',
-        'Monaco',
-        'Liberation Mono',
-        'DejaVu Sans Mono',
-        'Courier New',
-        'monospace',
-      ],
-      GeistSans: ['GeistSans', 'GeistSans_Fallback'],
-      inter: ['Inter', 'ui-sans-serif', 'system-ui'],
-      grotesk: ['Px Grotesk', 'sans-serif'],
-      'grotesk-mono': ['Px Grotesk Mono', 'monospace'],
+      PxGrotesk: ['Px Grotesk'],
+      PxGroteskMono: ['Px Grotesk Mono'],
+      GeistSans: ['GeistSans', 'Helvetica Neue', 'Noto Sans', 'sans-serif'],
+      GeistMono: ['GeistMono', 'Roboto Mono', 'monospace'],
     },
 
     extend: {

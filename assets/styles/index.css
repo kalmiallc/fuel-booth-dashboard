@@ -9,7 +9,7 @@
 
 h1,
 .text-h1 {
-  @apply text-[2.5rem] font-bold leading-tight text-green md:text-[3rem] lg:text-[4rem];
+  @apply text-[6rem] lg:text-[7rem] xl:text-[8rem] leading-tight text-black font-PxGrotesk;
 }
 
 h2 {
@@ -17,7 +17,7 @@ h2 {
 }
 
 h3 {
-  @apply text-2xl font-bold;
+  @apply text-[25px] text-white;
 }
 
 a {

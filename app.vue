@@ -2,7 +2,7 @@
 import { lightTheme, darkTheme, enUS, dateEnUS } from 'naive-ui';
 import { themeOverrides } from '~/lib/config/naive';
 
-const prefersDarkTheme = false;
+const prefersDarkTheme = true;
 const themeName = prefersDarkTheme ? 'dark' : 'light';
 
 const theme = computed(() => {
@@ -18,7 +18,7 @@ useHead({
 </script>
 
 <template>
-  <div class="h-full">
+  <div class="h-full bg-background">
     <n-config-provider
       :theme="theme"
       :theme-overrides="themeOverrides"
@@ -28,9 +28,7 @@ useHead({
       class="relative flex h-full flex-col overflow-x-hidden"
     >
       <n-message-provider :keep-alive-on-hover="true" :duration="3000" closable>
-        <NuxtLayout>
-          <NuxtPage />
-        </NuxtLayout>
+        <NuxtPage />
       </n-message-provider>
       <n-global-style />
     </n-config-provider>

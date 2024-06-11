@@ -2,8 +2,8 @@ import type { GlobalThemeOverrides } from 'naive-ui';
 
 export const themeOverrides: GlobalThemeOverrides = {
   common: {
-    fontFamily: 'GeistSans',
-    fontSize: '16px',
+    fontFamily: 'Px Grotesk',
+    fontSize: '20px',
     lineHeight: '1.5',
     primaryColor: '#00e182',
     primaryColorHover: '#00cd75',
@@ -29,7 +29,7 @@ export const themeOverrides: GlobalThemeOverrides = {
     borderColor: '#E0E1E7',
     thColor: '#0e0e0e',
     tdColor: 'transparent',
-    tdColorHover: '#F0F0F3',
+    tdColorHover: '#19342A',
     thTextColor: '#ABB7C2',
   },
 
@@ -57,5 +57,9 @@ export const themeOverrides: GlobalThemeOverrides = {
 
   Popover: {
     padding: '4px 10px',
+  },
+
+  Split: {
+    resizableTriggerColor: '#0e0e0e',
   },
 };

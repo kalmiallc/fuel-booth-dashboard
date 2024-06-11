@@ -23,7 +23,7 @@ const props = defineProps({
 const oldEvents = ref<GameEvent[]>([]);
 const playerStore = usePlayerStore();
 
-const newRows = ref<number[]>([0, 1]);
+const newRows = ref<number[]>([]);
 
 const tableClasses = computed(() => {
   return newRows.value.map(i => `flash-row-${i}`);
@@ -48,11 +48,6 @@ const columns = computed<DataTableColumns<GameEvent>>(() => {
       minWidth: 100,
     },
     {
-      key: 'distance',
-      title: 'Distance',
-      minWidth: 100,
-    },
-    {
       key: 'speed',
       title: 'Speed',
       minWidth: 100,
@@ -62,7 +57,10 @@ const columns = computed<DataTableColumns<GameEvent>>(() => {
       title: 'Time seconds',
       minWidth: 100,
       render(row: GameEvent) {
-        return row.time > 1000 ? Math.round(row.time / 1000) : row.time;
+        const time = row.time > 1000 ? Math.round(row.time / 1000) : row.time;
+        const minutes = Math.floor(time / 60);
+        const seconds = time - minutes * 60;
+        return minutes > 0 ? `${minutes}min ${seconds}s` : `${seconds}s`;
       },
     },
   ];
@@ -97,16 +95,6 @@ const username = (id: string) => {
 @for $i from 1 to 10 {
   .flash-row-$i .n-data-table-table .n-data-table-tr:nth-child($i) td {
     animation: flash 1s;
-  }
-}
-
-@keyframes flash {
-  0%,
-  100% {
-    @apply bg-transparent;
-  }
-  50% {
-    @apply bg-green;
   }
 }
 </style>

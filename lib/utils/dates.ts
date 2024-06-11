@@ -39,3 +39,10 @@ export function getDateIfBefore(ts: number | string) {
   }
   return date.format('DD/MM/YYYY');
 }
+
+export const formattedTime = time => {
+  const timeInSeconds = time > 1000 ? Math.round(time / 1000) : time;
+  const minutes = Math.floor(timeInSeconds / 60);
+  const seconds = timeInSeconds - minutes * 60;
+  return minutes > 0 ? `${minutes}min ${seconds}s` : `${seconds}s`;
+};

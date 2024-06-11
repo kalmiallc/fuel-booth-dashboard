@@ -27,7 +27,9 @@
 
 .fadeDown-enter-active,
 .fadeDown-leave-active {
-  transition: transform 0.2s, opacity 300ms cubic-bezier(0.39, 0.575, 0.565, 1);
+  transition:
+    transform 0.2s,
+    opacity 300ms cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 
 .fadeDown-move {
@@ -38,4 +40,18 @@
 .fadeDown-leave-to {
   opacity: 0;
   transform: translateY(-50%);
+}
+
+/** Flash */
+.flash {
+  animation: flash 1s;
+}
+@keyframes flash {
+  0%,
+  100% {
+    @apply bg-transparent;
+  }
+  50% {
+    @apply bg-green;
+  }
 }

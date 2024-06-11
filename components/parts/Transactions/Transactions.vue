@@ -1,20 +1,57 @@
 <script lang="ts" setup>
-defineProps({
+const props = defineProps({
   title: { type: String, default: 'Transactions' },
-  transactions: { type: Array<Transaction>, default: [] },
+  transactions: { type: Array<GameEvent>, default: [] },
 });
+
+const oldTransactions = ref<GameEvent[]>([]);
+const newRows = ref<string[]>([]);
+
+watch(
+  () => props.transactions,
+  events => {
+    if (oldTransactions.value.length) {
+      events.forEach(item => {
+        const event = oldTransactions.value.find(e => item.id === e.id);
+        if (!event) {
+          newRows.value.push(item.id);
+        }
+      });
+    }
+    oldTransactions.value = JSON.parse(JSON.stringify(events));
+    setTimeout(() => (newRows.value = []), 2000);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
   <div>
-    <h2 class="text-heading border-b pb-2 font-medium tracking-tight" data-size="2">
-      <NuxtIcon name="list" />
+    <h3 class="mb-4">
       {{ title }}
-    </h2>
+    </h3>
 
-    <n-virtual-list class="max-h-[40rem] p-4 bg-black" :item-size="60" :items="transactions">
-      <template #default="{ item }">
-        <TransactionsItem :transaction="item" :key="item.id" />
+    <div class="flex justify-between items-center gap-4 p-4 text-base">
+      <div class="w-1/4">Transaction ID</div>
+      <div class="w-1/5">Username</div>
+      <div class="w-1/5">Time</div>
+      <div class="w-1/5">Damage</div>
+    </div>
+
+    <n-virtual-list
+      v-if="transactions.length"
+      class="max-h-[44rem]"
+      :item-size="90"
+      :items="transactions"
+    >
+      <template #default="{ item }: { item: GameEvent }">
+        <TransactionsItem
+          v-if="item"
+          :event="item"
+          :key="item.id"
+          :class="{ flash: newRows.includes(item.id) }"
+        />
+        <div v-else></div>
       </template>
     </n-virtual-list>
   </div>

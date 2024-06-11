@@ -201,7 +201,8 @@ export async function read_address_events_receipts(address: string) {
   const parseValuesToObject = values => {
     return {
       time: values[0],
-      distance: values[2],
+      speed: values[1],
+      damage: values[2],
       id: values[3],
     };
   };
@@ -226,6 +227,9 @@ export async function read_address_events_receipts(address: string) {
     // Filter receipts by type 'LOG_DATA'
     const logDataReceipts = allReceipts.filter(receipt => receipt.receiptType === 'LOG_DATA');
     const logDataFields = logDataReceipts.map(receipt => receipt.data);
+
+    // console.log(allReceipts);
+    // logTrackEvents(logDataFields);
 
     return logDataFields
       .reduce((accumulator, hexString) => {

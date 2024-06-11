@@ -1,25 +1,8 @@
 <template>
-  <div class="bg-dark-bg text-dark-text p-4 font-va">
+  <div class="px-12 py-6">
     <n-flex justify="space-between">
       <h1>GO {{ username }}!</h1>
-    </n-flex>
-    <n-flex justify="space-between">
-      <div>
-        <span>TIME</span>
-        <h3>{{ event.time }}</h3>
-      </div>
-      <div>
-        <span>current speed</span>
-        <h3>{{ event.speed }}</h3>
-      </div>
-      <div>
-        <span>damage</span>
-        <h3>{{ event.damage }}</h3>
-      </div>
-      <div>
-        <span>place</span>
-        <h3>{{ place }}</h3>
-      </div>
+      <h2 class="text-h1">{{ place }}</h2>
     </n-flex>
   </div>
 </template>

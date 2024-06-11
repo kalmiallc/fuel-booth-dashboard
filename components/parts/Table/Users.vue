@@ -2,7 +2,7 @@
   <n-data-table
     :bordered="false"
     :columns="columns"
-    :data="userStore.items.splice(0, 10)"
+    :data="userStore.items.slice(0, 10)"
     :loading="userStore.loading"
     :pagination="false"
     @update:page="e => (userStore.pagination.page = e)"
@@ -43,38 +43,23 @@ const columns = computed<DataTableColumns<UserInterface>>(() => {
     },
     {
       key: 'username',
-      title: 'Username',
+      title: 'Player',
       minWidth: 100,
     },
     {
-      key: 'email',
-      title: 'Email',
-      minWidth: 80,
-    },
-    {
       key: 'high_score',
-      title: 'High score',
-      minWidth: 80,
-    },
-    {
-      key: 'damage',
-      title: 'Damage',
-      minWidth: 80,
-    },
-    {
-      key: 'distance',
-      title: 'Distance',
-      minWidth: 84,
-    },
-    {
-      key: 'speed',
-      title: 'Speed',
+      title: 'Score',
       minWidth: 80,
     },
     {
       key: 'time_seconds',
       title: 'Time seconds',
       minWidth: 84,
+    },
+    {
+      key: 'damage',
+      title: 'Damage',
+      minWidth: 80,
     },
   ];
 });
