@@ -6,6 +6,9 @@ const props = defineProps({
 
 const userStore = useUserStore();
 
+const oldPlayers = ref<UserInterface[]>([]);
+const newRows = ref<number[]>([]);
+
 onMounted(() => {
   userStore.getUsers();
 });
@@ -27,6 +30,23 @@ const players = computed(() => {
   }
   return usersInFinish.slice(0, 10);
 });
+
+watch(
+  () => players.value,
+  players => {
+    if (oldPlayers.value.length) {
+      players.forEach(item => {
+        const event = oldPlayers.value.find(e => item.id === e.id);
+        if (!event) {
+          newRows.value.push(item.id);
+        }
+      });
+    }
+    oldPlayers.value = JSON.parse(JSON.stringify(players));
+    setTimeout(() => (newRows.value = []), 2000);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -48,7 +68,10 @@ const players = computed(() => {
         <ScoreboardItem
           v-if="item"
           :player="item"
-          :class="{ '!bg-green text-black': activePlayer?.username_hash === item.username_hash }"
+          :class="[
+            { '!bg-green text-black': activePlayer?.username_hash === item.username_hash },
+            { flash: newRows.includes(item.id) },
+          ]"
           :key="item.id"
         />
         <div v-else></div>
