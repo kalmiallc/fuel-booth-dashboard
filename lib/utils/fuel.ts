@@ -181,29 +181,13 @@ export async function read_address_events_receipts(address: string) {
   };
 
   // Function to filter and log track events
-  const logTrackEvents = logDataFields => {
-    logDataFields.forEach(hexString => {
-      const values = extractAndConvertValuesFromHex(hexString);
-      const status = values[1];
-      const message = statusMessages[status];
-      if (message) {
-        console.log(
-          `|${status}||${message}(Time: ${values[0]} Distance: ${values[2]})\nHash Identifier: ${values[3]}`
-        );
-      } else {
-        console.log(
-          `|${status}||Unknown Event(Time: ${values[0]} Distance: ${values[2]})\nHash Identifier: ${values[3]}`
-        );
-      }
-    });
-  };
-  // Function to filter and log track events
-  const parseValuesToObject = values => {
+  const parseValuesToObject = (id, values) => {
     return {
+      id: id,
       time: values[0],
-      speed: values[1],
+      score_type: values[1],
       damage: values[2],
-      id: values[3],
+      user_hash: values[3],
     };
   };
 
@@ -222,21 +206,16 @@ export async function read_address_events_receipts(address: string) {
     let data = await response.json();
 
     const transactions = data['data']['transactionsByOwner']['nodes'];
-    // Flatten the array of receipts
-    const allReceipts = transactions.flatMap(tx => tx.status.receipts);
-    // Filter receipts by type 'LOG_DATA'
-    const logDataReceipts = allReceipts.filter(receipt => receipt.receiptType === 'LOG_DATA');
-    const logDataFields = logDataReceipts.map(receipt => receipt.data);
 
-    // console.log(allReceipts);
-    // logTrackEvents(logDataFields);
-
-    return logDataFields
-      .reduce((accumulator, hexString) => {
-        const convertedValues = extractAndConvertValuesFromHex(hexString);
-        return convertedValues[1] === 0
-          ? [...accumulator, parseValuesToObject(convertedValues)]
-          : accumulator;
+    return transactions
+      .reduce((accumulator, tx) => {
+        const receipts = tx.status.receipts
+          .filter(receipt => receipt.receiptType === 'LOG_DATA')
+          .map(receipt => {
+            const convertedValues = extractAndConvertValuesFromHex(receipt.data);
+            return parseValuesToObject(tx.id, convertedValues);
+          });
+        return receipts?.length ? [...accumulator, ...receipts] : accumulator;
       }, [])
       .reverse();
   } catch (error) {

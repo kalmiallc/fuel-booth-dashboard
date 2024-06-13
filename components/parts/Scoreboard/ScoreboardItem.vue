@@ -16,7 +16,7 @@ const position = computed(() => userStore.items.findIndex(item => item.id === pr
   >
     <div class="w-1/12 font-PxGroteskMono text-center">
       <span v-if="position < 4" class="relative flex justify-center items-center">
-        <NuxtIcon v-if="position < 4" name="square" class="text-3xl -mt-1" filled> </NuxtIcon>
+        <NuxtIcon v-if="position < 4" name="square" class="text-3xl -mt-[6px]" filled> </NuxtIcon>
         <span
           class="inline-block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black"
         >

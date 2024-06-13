@@ -14,7 +14,7 @@ const playerStore = usePlayerStore();
       {{ shortHash(event.id) }}
     </div>
     <div class="w-1/5 font-PxGroteskMono">
-      <TableEllipsis :text="playerStore.username(event.id)" />
+      <TableEllipsis :text="playerStore.username(event.user_hash)" />
     </div>
     <div class="w-1/5 font-PxGrotesk">
       {{ formattedTime(event.time) }}

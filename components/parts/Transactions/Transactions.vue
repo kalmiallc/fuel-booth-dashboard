@@ -40,7 +40,7 @@ watch(
 
     <n-virtual-list
       v-if="transactions.length"
-      class="max-h-[44rem]"
+      class="max-h-[40rem]"
       :item-size="90"
       :items="transactions"
     >

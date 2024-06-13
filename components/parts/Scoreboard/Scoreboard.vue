@@ -10,22 +10,22 @@ onMounted(() => {
   userStore.getUsers();
 });
 
-const activePlayer = computed(() => userStore.items[11]);
-const players = computed(() => {
-  if (props.lastEvent) {
-    let userIndex =
-      userStore.items.findIndex(item => item.username_hash === props.lastEvent.id) || 11;
-    console.log(userIndex);
-    userIndex = 11;
+const activePlayer = computed(() =>
+  userStore.items.find(item => item.username_hash === props?.lastEvent?.user_hash)
+);
 
-    if (userIndex > 8) {
-      return [
-        ...userStore.items.slice(0, 3),
-        ...userStore.items.slice(userIndex - 3, userIndex + 3),
-      ];
+const players = computed(() => {
+  const usersInFinish = userStore.items.filter(item => item.high_score > 0);
+  if (props.lastEvent) {
+    const userIndex = usersInFinish.findIndex(
+      item => item.username_hash === props.lastEvent?.user_hash
+    );
+
+    if (userIndex > 7) {
+      return [...usersInFinish.slice(0, 3), ...usersInFinish.slice(userIndex - 3, userIndex + 4)];
     }
   }
-  return userStore.items.slice(0, 10);
+  return usersInFinish.slice(0, 10);
 });
 </script>
 
@@ -43,7 +43,7 @@ const players = computed(() => {
       <div class="w-1/6">Damage</div>
     </div>
 
-    <n-virtual-list class="max-h-[48rem]" :item-size="90" :items="players">
+    <n-virtual-list class="max-h-[40rem]" :item-size="90" :items="players">
       <template #default="{ item }">
         <ScoreboardItem
           v-if="item"
