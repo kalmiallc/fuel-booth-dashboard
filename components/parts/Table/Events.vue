@@ -21,7 +21,7 @@ const props = defineProps({
 });
 
 const oldEvents = ref<GameEvent[]>([]);
-const playerStore = usePlayerStore();
+const userStore = useUserStore();
 
 const newRows = ref<number[]>([]);
 
@@ -37,7 +37,7 @@ const columns = computed<DataTableColumns<GameEvent>>(() => {
       render(row: GameEvent, index: number) {
         return h(
           resolveComponent('TableEllipsis'),
-          { text: username(row.id), style: { 'text-rendering': 'optimizeSpeed' } },
+          { text: userStore.username(row.id), style: { 'text-rendering': 'optimizeSpeed' } },
           ''
         );
       },
@@ -82,13 +82,6 @@ watch(
   },
   { deep: true }
 );
-
-const username = (id: string) => {
-  const player = playerStore.items.find(item => item.username_hash === id);
-  // const user = userStore.items.find(item => item.username_hash === id);
-
-  return player?.username ? player.username : id;
-};
 </script>
 
 <style lang="postcss">
