@@ -26,6 +26,12 @@ export const useUserStore = defineStore('user', {
       this.pagination.itemCount = 0;
     },
 
+    username(id: string) {
+      const player = this.items.find(item => item.username_hash === id);
+
+      return player?.username ? player.username : '';
+    },
+
     /**
      * API calls
      */

@@ -15,10 +15,9 @@ import { ScoreType } from '~/lib/types/event';
 const props = defineProps({
   event: { type: Object as PropType<GameEvent>, required: true },
 });
-const playerStore = usePlayerStore();
 const userStore = useUserStore();
 
-const username = computed(() => playerStore.username(props.event.user_hash));
+const username = computed(() => userStore.username(props.event.user_hash));
 
 const place = computed(() => {
   const place = userStore.items.findIndex(item => item.username_hash === props.event.user_hash);
@@ -28,10 +27,9 @@ const place = computed(() => {
 watch(
   () => props.event?.id,
   _ => {
-    const player = playerStore.items.find(item => item.username_hash === props.event.user_hash);
+    const player = userStore.items.find(item => item.username_hash === props.event.user_hash);
 
     if (player === undefined || props.event.score_type > ScoreType.RACING) {
-      playerStore.getPlayers();
       userStore.getUsers();
     }
   }

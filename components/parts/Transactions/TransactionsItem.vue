@@ -2,7 +2,7 @@
 defineProps({
   event: { type: Object as PropType<GameEvent>, required: true },
 });
-const playerStore = usePlayerStore();
+const userStore = usePlayerStore();
 </script>
 
 <template>
@@ -14,7 +14,7 @@ const playerStore = usePlayerStore();
       {{ shortHash(event.id) }}
     </div>
     <div class="w-1/5 font-PxGroteskMono">
-      <TableEllipsis :text="playerStore.username(event.user_hash)" />
+      <TableEllipsis :text="userStore.username(event.user_hash)" />
     </div>
     <div class="w-1/5 font-PxGrotesk">
       {{ formattedTime(event.time) }}
