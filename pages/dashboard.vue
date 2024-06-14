@@ -17,7 +17,7 @@ onMounted(async () => {
 
   setInterval(async () => {
     events.value = await read_address_events_receipts(config.public.SIGNER_ADDRESS);
-  }, 1000);
+  }, 2000);
 });
 </script>
 

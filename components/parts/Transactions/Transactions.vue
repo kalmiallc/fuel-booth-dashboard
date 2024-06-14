@@ -19,7 +19,10 @@ watch(
       });
     }
     oldTransactions.value = JSON.parse(JSON.stringify(events));
-    setTimeout(() => (newRows.value = []), 2000);
+
+    if (newRows.value.length) {
+      setTimeout(() => (newRows.value = []), 1000);
+    }
   },
   { deep: true }
 );
