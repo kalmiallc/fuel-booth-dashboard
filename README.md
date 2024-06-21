@@ -1,29 +1,41 @@
-# README #
+# Fuel app (Leaderboard)
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This repository contains source code for the Leaderboard frontend.
 
-### What is this repository for? ###
+## Stack
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+- node 18+
+- Nuxt 3
+- Vue 3 w/ TypeScript
+- Pinia Store
+- NaiveUI
+- TailwindCSS
 
-### How do I get set up? ###
+## Environment
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+You need to setup a `lib/config/${env}.ts` file with variables described below.
 
-### Contribution guidelines ###
+First part is Application setup.
 
-* Writing tests
-* Code review
-* Other guidelines
+- `APP_URL` URL where Leaderboard will be runnig.
+- `GAME_URL` URL where game will be running
+- `API_BASE` URL where API will be running.
 
-### Who do I talk to? ###
+Second is FUEL configuration:
 
-* Repo owner or admin
-* Other community or team contact
+- `SIGNER_ADDRESS` Address of the signer,
+
+## Running
+
+```sh
+npm i
+
+# dev (serve with browser refresh on file change)
+npm run dev
+
+# build code
+npm run build
+
+# just serve
+npm run preview
+```
