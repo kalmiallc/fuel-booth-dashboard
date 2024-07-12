@@ -44,7 +44,7 @@ const columns = computed<DataTableColumns<GameEvent>>(() => {
     },
     {
       key: 'damage',
-      title: 'Damage',
+      title: 'Health',
       minWidth: 100,
     },
     {

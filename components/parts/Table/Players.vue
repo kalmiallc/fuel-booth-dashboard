@@ -77,7 +77,7 @@ const columns = computed<DataTableColumns<Player>>(() => {
     },
     {
       key: 'damage',
-      title: 'Damage',
+      title: 'Health',
     },
     {
       key: 'distance',

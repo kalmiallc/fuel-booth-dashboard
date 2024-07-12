@@ -60,7 +60,7 @@ const players = computed(() => {
       <div class="w-5/12">Player</div>
       <div class="w-1/6">Score</div>
       <div class="w-1/6">Time</div>
-      <div class="w-1/6">Damage</div>
+      <div class="w-1/6">Health</div>
     </div>
 
     <n-virtual-list class="max-h-[40rem]" :item-size="90" :items="players">

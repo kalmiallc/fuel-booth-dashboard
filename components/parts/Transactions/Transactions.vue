@@ -38,7 +38,7 @@ watch(
       <div class="w-1/4">Transaction ID</div>
       <div class="w-1/5">Username</div>
       <div class="w-1/5">Time</div>
-      <div class="w-1/5">Damage</div>
+      <div class="w-1/5">Health</div>
     </div>
 
     <n-virtual-list

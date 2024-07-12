@@ -58,7 +58,7 @@ const columns = computed<DataTableColumns<UserInterface>>(() => {
     },
     {
       key: 'damage',
-      title: 'Damage',
+      title: 'Health',
       minWidth: 80,
     },
   ];
